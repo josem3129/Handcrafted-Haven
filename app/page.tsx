@@ -1,10 +1,10 @@
-import styles from "./page.module.css";
+import styles from "@/app/ui/style.module.css";
 import CardWarper from "./ui/card";
 import { Suspense } from "react";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
+    <div className={styles.body}>
       <main className={styles.main}>
         <Suspense>
        <CardWarper/>
