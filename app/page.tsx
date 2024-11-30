@@ -1,6 +1,6 @@
-{/*import styles from "./page.module.css";
+import styles from "@/app/ui/style.module.css";
 import CardWarper from "./ui/card";
-import { Suspense } from "react";*/}
+import { Suspense } from "react";
 import React from "react";
 import './global.css';
 
@@ -33,6 +33,5 @@ export default function Home() {
   <div className="w-[198px] h-[30px] left-[22px] top-[308px] absolute text-black text-[32px] font-normal font-['Inter']">Profile</div>
   <div className="w-[198px] h-[30px] left-[270px] top-[416px] absolute text-black text-[32px] font-normal font-['Inter']">Categories</div>
 </div>
-
   );
 }
