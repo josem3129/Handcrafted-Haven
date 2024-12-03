@@ -23,10 +23,9 @@ export default function Home() {
         <div className="w-[148px] h-[148px] left-[1216px] top-[466px] absolute bg-[#bcbcbc] rounded-full" />
         <div className="w-[65px] h-[65px] left-[23px] top-[13px] absolute bg-[#bcbcbc] rounded-full" />
         <div className="left-[285px] top-[740px] absolute justify-start items-center gap-[88px] inline-flex">
-          <div className="w-[216px] h-[206px] bg-[#a5a5a5]" />
-          <div className="w-[215px] h-[206px] bg-[#a5a5a5]" />
-          <div className="w-[216px] h-[206px] bg-[#a5a5a5]" />
-          <div className="w-[216px] h-[206px] bg-[#a5a5a5]" />
+          <Suspense>
+            <CardWarper />
+          </Suspense>
         </div>
         <div className="w-[212px] h-[46px] left-[15px] top-[80px] absolute bg-[#a5a5a5] rounded-[39px]" />
         <div className="w-[198px] h-[30px] left-[285px] top-[691px] absolute text-black text-[32px] font-normal font-['Inter']">
@@ -37,9 +36,6 @@ export default function Home() {
         </div>
         <div className="w-[198px] h-[30px] left-[22px] top-[247px] absolute text-black text-[32px] font-normal font-['Inter']">
           <h2>shop</h2>
-          <Suspense>
-            <CardWarper />
-          </Suspense>
         </div>
         <div className="w-[198px] h-[30px] left-[22px] top-[308px] absolute text-black text-[32px] font-normal font-['Inter']">
           Profile

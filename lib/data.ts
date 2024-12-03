@@ -7,7 +7,7 @@ export async function fetchCardData() {
           SELECT  listings.title, listings.image_url, listings.id
           FROM listings
           ORDER BY listings.date DESC
-            LIMIT 6`;
+            LIMIT 9`;
     
         const latestListings = data.rows.map((listing) => ({
 
