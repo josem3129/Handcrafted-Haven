@@ -1,4 +1,6 @@
+import style from "@/app/ui/style.module.css"
 import Image from "next/image";
+
 import { fetchCardData } from "@/lib/data";
 
 export default async function CardWarper() {
@@ -27,17 +29,18 @@ export function Card({
   image_url : string;
 }) {
   return (
-    <div>
-      <div>
-        <h3>{title}</h3>
+    <div className={style.wrapper}>
+      <div className={style.card}>
+        <h3 className={style.title}>{title}</h3>
         <Image
         src={image_url}
-        width={300}
-        height={300}
-        className="listingImg"
+        width={500}
+        height={500}
+        sizes="fill"
+        className={style.listingImg}
         alt={title}
         />
-        <span>{id}</span>
+        <span className={style.span}>{id}</span>
       </div>
     </div>
   );
