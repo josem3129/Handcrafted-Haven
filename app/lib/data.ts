@@ -69,6 +69,9 @@ export async function fetchCardData() {
       image_url: listing.image_url
     }));
 
+    console.log(latestListings.map(list => {
+      return list
+    }));
     
     return latestListings;
 

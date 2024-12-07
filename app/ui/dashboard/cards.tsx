@@ -26,17 +26,19 @@ export default async function CardWrapper() {
       image_url: string;
     }) => {
       return (
-        <>
-          <Card
-            id={listing.id}
-            title={listing.title}
-            amount={listing.amount}
-            image_url={listing.image_url}/>
-        </>
+        
+        <Card
+          key={listing.id}  
+          id={listing.id}
+          title={listing.title}
+          amount={listing.amount}
+          image_url={listing.image_url}
+        />
       );
     }
   );
 }
+
 
 export function Card({
   id,
@@ -54,12 +56,12 @@ export function Card({
   return (
     <div className="rounded-xl bg-gray-50 p-2 shadow-sm" key={id}>
       <div className="flex p-4">
+        
         <Image
           src={image_url}
+          alt={title}
           width={500}
           height={500}
-          sizes="fill"
-          alt={title}
         />
         {/* {Icon ? <Icon className="h-5 w-5 text-gray-700" /> : null} */}
         <h3 className="ml-2 text-sm font-medium">{title}</h3>
