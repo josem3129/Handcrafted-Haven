@@ -8,7 +8,17 @@ export type User = {
   email: string;
   password: string;
 };
-
+export type listingTable = {
+  id: string;
+  user_id: string;
+  name: string;
+  title: string;
+  amount: number;
+  email: string;
+  image_url: string;
+  product_description: string;
+  date: string;
+};
 export type Customer = {
   id: string;
   name: string;
