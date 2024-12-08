@@ -7,7 +7,7 @@ module.exports = {
     remotePattern: [
       {
         protocol: "https",
-        hostname: "example.com",
+        hostname: "lego.com",
         port: "",
         pathname: "/images/**",
       },

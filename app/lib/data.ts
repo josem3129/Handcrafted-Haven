@@ -44,7 +44,7 @@ export async function fetchLatestInvoices() {
       amount: listing.amount
     }));
 
-    console.log(latestListings);
+    // console.log(latestListings);
     
     return latestListings;
 
@@ -69,9 +69,9 @@ export async function fetchCardData() {
       image_url: listing.image_url
     }));
 
-    console.log(latestListings.map(list => {
-      return list
-    }));
+    // console.log(latestListings.map(list => {
+    //   return list
+    // }));
     
     return latestListings;
 
@@ -120,12 +120,8 @@ export async function fetchInvoicesPages(query: string) {
   try {
     const count = await sql`SELECT COUNT(*)
     FROM listings
-    JOIN users ON listings.customer_id = users.id
-    WHERE
-      users.name ILIKE ${`%${query}%`} OR
-      users.email ILIKE ${`%${query}%`} OR
-      listings.amount::text ILIKE ${`%${query}%`} OR
-      listings.date::text ILIKE ${`%${query}%`} OR
+    JOIN users ON listings.user_id = users.id
+ 
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
@@ -152,7 +148,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: listing.amount / 100,
     }));
-    console.log(listing); // listing is an empty array []
+    // console.log(listing); // listing is an empty array []
     return listing[0];
   } catch (error) {
     console.error('Database Error:', error);
