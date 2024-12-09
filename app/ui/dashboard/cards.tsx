@@ -49,6 +49,5 @@ export function Card({
         {amount}
       </p>
     </div>
-    
   );
 }

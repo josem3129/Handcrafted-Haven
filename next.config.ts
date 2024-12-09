@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
- 
 const nextConfig = {
   experimental: {
     ppr: 'incremental',
   },
+  images: {
+    formats: ['image/webp'],
+  },
 };
- 
-export default nextConfig;
+
+module.exports = nextConfig;

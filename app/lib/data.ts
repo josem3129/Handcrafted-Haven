@@ -123,7 +123,8 @@ export async function fetchInvoicesPages(query: string) {
     JOIN users ON listings.user_id = users.id
  
   `;
-
+    // console.log(count);
+    
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
