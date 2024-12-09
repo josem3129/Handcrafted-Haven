@@ -1,5 +1,5 @@
 import '@/app/ui/global.css';
-import { inter } from './ui/fonts';
+import { roboto } from './ui/fonts';
 import { Metadata } from 'next';
  
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${roboto.className} antialiased`}>{children}</body>
     </html>
   );
 }
