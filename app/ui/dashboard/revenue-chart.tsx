@@ -1,6 +1,6 @@
 // import { generateYAxis } from "@/app/lib/utils";
 // import { CalendarIcon } from "@heroicons/react/24/outline";
-// import { lusitana } from "@/app/ui/fonts";
+// import { playfair } from "@/app/ui/fonts";
 // import { fetchRevenue } from "@/app/lib/data";
 
 
@@ -17,7 +17,7 @@
 
 //   return (
 //     <div className="w-full md:col-span-4">
-//       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+//       <h2 className={`${playfair.className} mb-4 text-xl md:text-2xl`}>
 //         Recent Revenue
 //       </h2>
 
