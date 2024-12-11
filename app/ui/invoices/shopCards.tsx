@@ -1,11 +1,10 @@
 import { playfair } from "@/app/ui/fonts";
-import { fetchUserCards } from "@/app/lib/data";
+import { fetchCardData } from "@/app/lib/data";
 import Image from "next/image";
-import { Suspense } from "react";
-import { UpdateInvoice } from "@/app/ui/invoices/buttons";
+
 
 export default async function CardWrapper() {
-  const data = await fetchUserCards();
+  const data = await fetchCardData();
 
   return data.map(
     (listing: {
@@ -50,9 +49,7 @@ export function Card({
       >
         {amount}
       </p>
-      <Suspense>
-        <UpdateInvoice id={id}/>
-      </Suspense>
+      
     </div>
   );
 }

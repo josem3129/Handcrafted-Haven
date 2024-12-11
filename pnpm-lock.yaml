@@ -27,6 +27,9 @@ dependencies:
   clsx:
     specifier: ^2.1.1
     version: 2.1.1
+  jose:
+    specifier: ^5.9.6
+    version: 5.9.6
   lint:
     specifier: ^0.8.19
     version: 0.8.19
