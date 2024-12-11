@@ -119,20 +119,33 @@ export async function updateInvoice(
     description: formData.get('description'),
   });
  
+  // finding session
+  const userInfo = await getSession()
+    let user: { name: string } = { name: '' };
+   if (userInfo !== undefined) {
+      user = JSON.parse(JSON.stringify(userInfo))
+   }
+  //finding user in SQL
+  const userData = await sql`SELECT * FROM users WHERE name=${user.name}`;
+    const userInfoData = userData.rows[0];
+
+    
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Update Invoice.',
     };
   }
- 
-  const {title, amount, description } = validatedFields.data;
+  const imageUrl = '/image-holder-icon.png'
+  const { title, amount, description } = validatedFields.data;
   const amountInCents = amount * 100;
  
   try {
+    console.log(`Before sql ${id}, ${title} ${amountInCents} ${description}`);
+    
     await sql`
-      UPDATE invoices
-      SET customer_id = ${title}, amount = ${amountInCents}, status = ${description}
+      UPDATE listings
+      SET title = ${title}, amount = ${amountInCents}, product_description = ${description}
       WHERE id = ${id}
     `;
   } catch (error) {
@@ -140,18 +153,18 @@ export async function updateInvoice(
   }
  
   revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  redirect('/dashboard');
 }
 
 export async function deleteInvoice(id: string) {
-  throw new Error('Failed to Delete Invoice');
+  
   try {
-    await sql`DELETE FROM invoices WHERE id = ${id}`;
+    await sql`DELETE FROM listings WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
     return{message:"Deleted Invoice"}
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Delete Invoice.',
+      message: 'Database Error: Failed to Delete Listing.',
     };
   }
 }

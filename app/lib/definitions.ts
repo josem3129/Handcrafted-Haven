@@ -4,7 +4,7 @@
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 export type SessionPayload ={
   name: string
-  expiresAt: object
+  expiresAt: Date
 }
 export type User = {
   id: string;
@@ -94,9 +94,14 @@ export type CustomerField = {
   name: string;
 };
 
-export type InvoiceForm = {
+export type ListingForm = {
   id: string;
-  customer_id: string;
+  user_id: string;
+  name: string;
+  title: string;
   amount: number;
-  status: 'pending' | 'paid';
+  email: string;
+  image_url: string;
+  product_description: string;
+  date: string;
 };
