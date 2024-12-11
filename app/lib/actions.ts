@@ -5,18 +5,19 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { getSession } from "./session";
 
 const FormSchema = z.object({
   id: z.string(),
-  customerId: z.string({
-    invalid_type_error: 'Please select a customer.',
+  title: z.string({
+    message: 'Please add a title.',
   }),
   amount: z.coerce
   .number()
   .gt(0, { message: 'Please enter an amount greater than $0.' }),
-  status: z.enum(['pending', 'paid'], {
-    invalid_type_error: 'Please select an invoice status.',
-    message: 'missing field failed to create invoice',
+
+  description: z.string({
+    message: 'Please add description'
   }),
   date: z.string(),
 });
@@ -26,9 +27,9 @@ const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
 export type State = {
   errors?: {
-    customerId?: string[];
+    title?: string[];
     amount?: string[];
-    status?: string[];
+    description?: string[];
   };
   message?: string | null;
 };
@@ -53,11 +54,20 @@ export async function authenticate(
 }
 
 export async function createInvoice(prevState: State, formData: FormData) {
+  // finding session
+  const userInfo = await getSession()
+    let user: { name: string } = { name: '' };
+   if (userInfo !== undefined) {
+      user = JSON.parse(JSON.stringify(userInfo))
+   }
+  //finding user in SQL
+  const userData = await sql`SELECT * FROM users WHERE name=${user.name}`;
+    const userInfoData = userData.rows[0];
   //validate using zod
   const validatedFields = CreateInvoice.safeParse({
-    customerId: formData.get('customerId'),
+    title: formData.get('title'),
     amount: formData.get('amount'),
-    status: formData.get('status'),
+    description: formData.get('description'),
   });
   
   //if form fails, return errors early. otherwise, continue 
@@ -69,25 +79,26 @@ export async function createInvoice(prevState: State, formData: FormData) {
   }
   
   //prepare data insertion into database
-  const { customerId, amount, status } = validatedFields.data;
+  const imageUrl = '/image-holder-icon.png'
+  const { title, amount, description } = validatedFields.data;
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split("T")[0];
 
   try {
     await sql`
-      INSERT INTO invoices (customer_id, amount, status, date)
-      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+      INSERT INTO listings (user_id, name, title, amount, image_url, product_description, date)
+      VALUES (${userInfoData.id}, ${userInfoData.name}, ${title}, ${amountInCents}, ${imageUrl}, ${description}, ${date})
     `;
       } catch (error) {
         return {
-          message: 'Database Error: Failed to Create Invoice.',
+          message: 'Database Error: Failed to Create listing.',
         };
   }
-
+// need to change this to listings
   const rawFormData = {
-    customerId: formData.get("customerId"),
-    amount: formData.get("amount"),
-    status: formData.get("status"),
+    title: formData.get('title'),
+    amount: formData.get('amount'),
+    description: formData.get('description'),
   };
 
   console.log(rawFormData);
@@ -96,15 +107,16 @@ export async function createInvoice(prevState: State, formData: FormData) {
   
 }
 
+// need to change to update listing
 export async function updateInvoice(
   id: string,
   prevState: State,
   formData: FormData,
 ) {
   const validatedFields = UpdateInvoice.safeParse({
-    customerId: formData.get('customerId'),
+    title: formData.get('title'),
     amount: formData.get('amount'),
-    status: formData.get('status'),
+    description: formData.get('description'),
   });
  
   if (!validatedFields.success) {
@@ -114,13 +126,13 @@ export async function updateInvoice(
     };
   }
  
-  const { customerId, amount, status } = validatedFields.data;
+  const {title, amount, description } = validatedFields.data;
   const amountInCents = amount * 100;
  
   try {
     await sql`
       UPDATE invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+      SET customer_id = ${title}, amount = ${amountInCents}, status = ${description}
       WHERE id = ${id}
     `;
   } catch (error) {

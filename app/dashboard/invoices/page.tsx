@@ -7,7 +7,7 @@ import { CardsSkeleton, InvoicesTableSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchInvoicesPages } from "@/app/lib/data";
 import { Metadata } from "next";
-import CardWrapper from "@/app/ui/dashboard/cards";
+import CardWrapper from "@/app/ui/invoices/shopCards";
 export const metadata: Metadata = {
   title: 'Shop',
 };

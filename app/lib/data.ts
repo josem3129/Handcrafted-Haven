@@ -8,6 +8,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+import { getSession } from './session';
 
 // export async function fetchRevenue() {
 //   try {
@@ -61,6 +62,38 @@ export async function fetchCardData() {
       FROM listings
       ORDER BY listings.date DESC
         LIMIT 5`;
+
+    const latestListings = data.rows.map((listing) => ({
+      id: listing.id,
+      amount: listing.amount,
+      title: listing.title,
+      image_url: listing.image_url
+    }));
+
+    // console.log(latestListings.map(list => {
+    //   return list
+    // }));
+    
+    return latestListings;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch the latest invoices.');
+  }
+}
+
+export async function fetchUserCards() {
+  
+  try {
+    const userInfo = await getSession()
+    let user: { name: string } = { name: '' };
+   if (userInfo !== undefined) {
+      user = JSON.parse(JSON.stringify(userInfo))
+   }
+    const data = await sql<listingTable>`
+      SELECT  listings.title, listings.image_url, listings.id, listings.amount
+      FROM listings
+      WHERE listings.name = ${user.name}`;
 
     const latestListings = data.rows.map((listing) => ({
       id: listing.id,

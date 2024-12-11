@@ -83,7 +83,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             <div className="relative">
               <textarea
                 id="product_description"
-                name="Enter description"
+                name="description"
                 placeholder="Item description..."
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-auto text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="amount-error"
@@ -100,7 +100,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           </div>
         </div>
           {/*image uploading */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
             Add image
           </label>
@@ -123,15 +123,17 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 ))}
             </div>
           </div>
-        </div>
-        <div id="customer-error" aria-live="polite" aria-atomic="true">
+        </div> */}
+
+        {/** error handling */}
+        {/* <div id="customer-error" aria-live="polite" aria-atomic="true">
           {state.errors?.status &&
             state.errors.status.map((error: string) => (
               <p className="mt-2 text-sm text-red-500" key={error}>
                 {error}
               </p>
             ))}
-        </div>
+        </div> */}
       </div>
       <div aria-live="polite" aria-atomic="true">
         {state.message ? (
