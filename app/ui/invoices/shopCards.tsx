@@ -2,7 +2,6 @@ import { playfair } from "@/app/ui/fonts";
 import { fetchCardData } from "@/app/lib/data";
 import Image from "next/image";
 
-
 export default async function CardWrapper() {
   const data = await fetchCardData();
 
@@ -10,7 +9,7 @@ export default async function CardWrapper() {
     (listing: {
       id: string;
       title: string;
-      amount: number;
+      amount: string;
       image_url: string;
     }) => {
       return (
@@ -33,15 +32,15 @@ export function Card({
   image_url,
 }: {
   id: string;
-  amount: number;
+  amount: string;
   title: string;
   image_url: string;
 }) {
   return (
     <div className="rounded-xl bg-gray-50 p-2 shadow-sm .m-4" key={id}>
-      <div className="flex p-4">
+      <div className="flex-row p-4 text-center">
+        <h3 className="ml-2 text-2xl font-bold m-5">{title}</h3>
         <Image src={image_url} alt={title} width={500} height={500} />
-        <h3 className="ml-2 text-sm font-medium">{title}</h3>
       </div>
       <p
         className={`${playfair.className}
@@ -49,7 +48,6 @@ export function Card({
       >
         {amount}
       </p>
-      
     </div>
   );
 }

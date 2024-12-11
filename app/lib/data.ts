@@ -2,7 +2,7 @@ import { sql } from '@vercel/postgres';
 import {
   CustomerField,
   CustomersTableType,
-  InvoiceForm,
+  ListingForm,
   InvoicesTable,
   listingTable,
   Revenue,
@@ -61,11 +61,11 @@ export async function fetchCardData() {
       SELECT  listings.title, listings.image_url, listings.id, listings.amount
       FROM listings
       ORDER BY listings.date DESC
-        LIMIT 5`;
+        LIMIT 6`;
 
     const latestListings = data.rows.map((listing) => ({
       id: listing.id,
-      amount: listing.amount,
+      amount: formatCurrency(listing.amount),
       title: listing.title,
       image_url: listing.image_url
     }));
@@ -97,15 +97,12 @@ export async function fetchUserCards() {
 
     const latestListings = data.rows.map((listing) => ({
       id: listing.id,
-      amount: listing.amount,
+      amount: formatCurrency(listing.amount),
       title: listing.title,
       image_url: listing.image_url
     }));
 
-    // console.log(latestListings.map(list => {
-    //   return list
-    // }));
-    
+   
     return latestListings;
 
   } catch (error) {
@@ -166,13 +163,11 @@ export async function fetchInvoicesPages(query: string) {
   }
 }
 
-export async function fetchInvoiceById(id: string) {
+export async function fetchListingById(id: string) {
   try {
-    const data = await sql<InvoiceForm>`
+    const data = await sql<ListingForm>`
       SELECT
-        listings.id,
-        listings.customer_id,
-        listings.amount,
+        id, name, title, amount, image_url, product_description, date
       FROM listings
       WHERE listings.id = ${id};
     `;
@@ -190,7 +185,7 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
-export async function fetchCustomers() {
+export async function fetchUser() {
   try {
     const data = await sql<CustomerField>`
       SELECT
