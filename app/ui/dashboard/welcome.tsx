@@ -18,7 +18,7 @@ export default async function GetUserWelcome (){
    
     return(
         <>
-        <WelcomeDashboard name={user.name}/>
+        <WelcomeDashboard/>
         </>
     )
     
