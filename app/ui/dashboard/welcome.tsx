@@ -3,11 +3,16 @@ import { playfair } from '@/app/ui/fonts';
 
 
 export default async function GetUserWelcome (){
-    const userInfo = await getSession()
+    let userInfo = await getSession()
     let user: { name: string } = { name: '' };
    if (userInfo !== undefined) {
       user = JSON.parse(JSON.stringify(userInfo))
+   }else{
+    user = {name: 'user'}
    }
+
+   console.log(user.name);
+   
     return(
         <>
         <WelcomeDashboard name={user.name}/>
