@@ -87,7 +87,7 @@ export async function fetchUserCards() {
   try {
     let userInfo = await getSession()
     if (!userInfo) {
-      userInfo = {name: "Linda"}
+      // userInfo = {name: "Linda"}
     }
     let user: { name: string } = { name: '' };
    if (userInfo !== undefined) {
