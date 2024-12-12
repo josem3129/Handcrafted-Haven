@@ -2,7 +2,6 @@
 const nextConfig = {
   experimental: {
     ppr: 'incremental',
-    appDir: false,
   },
   images: {
     formats: ['image/webp'],
