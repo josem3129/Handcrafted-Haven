@@ -1,3 +1,4 @@
+'use server'
 import { getSession } from "@/app/lib/session";
 import { playfair } from '@/app/ui/fonts';
 
