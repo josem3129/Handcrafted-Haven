@@ -14,7 +14,7 @@ export default async function GetUserWelcome (){
     user = {name: 'user'}
    }
 
-   console.log(user.name);
+   console.log(user);
    
     return(
         <>
