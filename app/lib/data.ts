@@ -94,13 +94,13 @@ export async function fetchUserCards() {
       user = JSON.parse(JSON.stringify(userInfo))
    }
 
-   console.log(user.name);
+  //  console.log(user.name);
    
     const data = await sql<listingTable>`
       SELECT  listings.title, listings.image_url, listings.id, listings.amount
       FROM listings
       WHERE listings.name = ${user.name}`;
-    console.log(data);
+    // console.log(data);
     
     const latestListings = data.rows.map((listing) => ({
       id: listing.id,
