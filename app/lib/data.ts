@@ -191,17 +191,18 @@ export async function fetchListingById(id: string) {
   }
 }
 
-export async function fetchUser() {
+export async function fetchUser(id: string) {
   try {
     const data = await sql<CustomerField>`
       SELECT
-        id,
         name
       FROM users
-      ORDER BY name ASC
+      WHERE users.id = ${id};
     `;
 
-    const users = data.rows;
+    const users = data.rows.map((found) => ({
+      name: found.name
+    })); 
     return users;
   } catch (err) {
     console.error('Database Error:', err);

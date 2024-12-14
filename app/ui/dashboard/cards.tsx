@@ -1,5 +1,5 @@
 import { playfair } from "@/app/ui/fonts";
-import { fetchCardData, fetchUserCards } from "@/app/lib/data";
+import { fetchUserCards } from "@/app/lib/data";
 import Image from "next/image";
 import { Suspense } from "react";
 import { UpdateInvoice } from "@/app/ui/invoices/buttons";
