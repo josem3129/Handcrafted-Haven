@@ -6,9 +6,9 @@ import { UpdateInvoice } from "@/app/ui/invoices/buttons";
 import { DeleteListing } from "./buttons";
 
 export default async function CardWrapper() {
-  const data = await fetchUserCards();
-
-  return data.map(
+  let data = await fetchUserCards();
+  if (data !== null) {
+    return data.map(
     (listing: {
       id: string;
       title: string;
@@ -26,6 +26,10 @@ export default async function CardWrapper() {
       );
     }
   );
+  }
+ 
+
+ 
 }
 
 export function Card({

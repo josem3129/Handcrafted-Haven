@@ -12,7 +12,7 @@ async function getUser(email: string): Promise<User | undefined> {
   try {
     const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
     const userInfo = user.rows[0];
-    await createSession(userInfo.name)
+    await createSession(userInfo.id)
     return userInfo;
   } catch (error) {
     console.error('Failed to fetch user:', error);

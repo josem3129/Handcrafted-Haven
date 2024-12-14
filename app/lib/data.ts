@@ -85,25 +85,31 @@ export async function fetchCardData() {
 export async function fetchUserCards() {
   
   try {
-    const userInfo = await getSession()
-    let user: { name: string } = { name: '' };
+    let userInfo = await getSession()
+    if (!userInfo) {
+      return null
+    }
+    let user: { id: string } = { id: '' };
    if (userInfo !== undefined) {
       user = JSON.parse(JSON.stringify(userInfo))
    }
+
+  
     const data = await sql<listingTable>`
       SELECT  listings.title, listings.image_url, listings.id, listings.amount
       FROM listings
-      WHERE listings.name = ${user.name}`;
-
-    const latestListings = data.rows.map((listing) => ({
-      id: listing.id,
-      amount: formatCurrency(listing.amount),
-      title: listing.title,
-      image_url: listing.image_url
-    }));
-
-   
-    return latestListings;
+      WHERE listings.User_id = ${user.id}`;
+      
+      const latestListings = data.rows.map((listing) => ({
+        id: listing.id,
+        amount: formatCurrency(listing.amount),
+        title: listing.title,
+        image_url: listing.image_url
+      }));
+      
+      
+      console.log(latestListings);
+      return latestListings;
 
   } catch (error) {
     console.error('Database Error:', error);
@@ -192,7 +198,7 @@ export async function fetchUser() {
         id,
         name
       FROM users
-      ORDER BY name ASC
+      ORDER BY id ASC
     `;
 
     const users = data.rows;
@@ -203,6 +209,24 @@ export async function fetchUser() {
   }
 }
 
+export async function fetchUserById(id: string) {
+  try {
+    const data = await sql<CustomerField>`
+      SELECT
+        name
+      FROM users
+      WHERE users.id = ${id};
+    `;
+
+    const users = data.rows.map((found) => ({
+      name: found.name
+    })); 
+    return users;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers.');
+  }
+}
 export async function fetchFilteredCustomers(query: string) {
   try {
     const data = await sql<CustomersTableType>`
