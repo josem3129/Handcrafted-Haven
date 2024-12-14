@@ -10,9 +10,7 @@ import GetUserWelcome from "@/app/ui/dashboard/welcome";
 import { cookies } from "next/headers";
 import { draftMode } from 'next/headers';
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-};
+export const metadata: Metadata = { title, desc } = await getContent();;
 
  const contentUrl = isEnabled
     ? 'https://handcrafted-haven-one.vercel.app/dashboard?__vercel_draft=1'
@@ -24,7 +22,6 @@ export const metadata: Metadata = {
   return res.json();
 }
 export default async function Page() {
-   const { title, desc } = await getContent();
   
   return (
     <main>
