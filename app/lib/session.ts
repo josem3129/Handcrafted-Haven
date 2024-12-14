@@ -97,9 +97,15 @@ export async function getSession() {
       FROM jwt_tokens
       WHERE jwt_tokens.id = 2
   `
-  console.log(session.rows[0].token);
-  
-  if (!session) return null;
-  return await decrypt(session.rows[0].token);
+  const parsed = await decrypt(session);
+  parsed.expires = new Date(Date.now() + 10 * 1000);
+  const res = NextResponse.next();
+  res.cookies.set({
+    name: "session",
+    value: await encrypt(parsed),
+    httpOnly: true,
+    expires: parsed.expires,
+  });
+  return res;
 }
 
