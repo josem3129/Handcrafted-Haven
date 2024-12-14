@@ -13,7 +13,7 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("5 sec from now")
+    .setExpirationTime("1200 sec from now")
     .sign(encodedKey);
 }
 
@@ -23,13 +23,28 @@ export async function decrypt(session: string | undefined = "") {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ["HS256"],
     });
+
+    console.log(`----payload ${JSON.stringify(payload)}`);
+    
     return payload;
   } catch (error) {
     console.log(`Failed to verify session ${error}`);
+    // clearAllCookies()
    
   }
 }
 
+function clearAllCookies(): void {
+  // Get all cookies
+  const cookies = document.cookie.split(";");
+
+  // Loop through all cookies and delete them
+  cookies.forEach((cookie) => {
+      const cookieName = cookie.split("=")[0].trim();
+      // Set each cookie with an expired date to delete it
+      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  });
+}
 export async function createSession(id: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({id, expiresAt});  

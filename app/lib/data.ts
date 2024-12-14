@@ -89,28 +89,28 @@ export async function fetchUserCards() {
     if (!userInfo) {
       // userInfo = {name: "Linda"}
     }
-    let user: { name: string } = { name: '' };
+    let user: { id: string } = { id: '' };
    if (userInfo !== undefined) {
       user = JSON.parse(JSON.stringify(userInfo))
    }
 
-  //  console.log(user.name);
+   console.log(`------------------------------------DATA${user.id}`);
    
     const data = await sql<listingTable>`
       SELECT  listings.title, listings.image_url, listings.id, listings.amount
       FROM listings
-      WHERE listings.name = ${user.name}`;
-    // console.log(data);
-    
-    const latestListings = data.rows.map((listing) => ({
-      id: listing.id,
-      amount: formatCurrency(listing.amount),
-      title: listing.title,
-      image_url: listing.image_url
-    }));
-
-   
-    return latestListings;
+      WHERE listings.User_id = ${user.id}`;
+      
+      const latestListings = data.rows.map((listing) => ({
+        id: listing.id,
+        amount: formatCurrency(listing.amount),
+        title: listing.title,
+        image_url: listing.image_url
+      }));
+      
+      
+      console.log(latestListings);
+      return latestListings;
 
   } catch (error) {
     console.error('Database Error:', error);
