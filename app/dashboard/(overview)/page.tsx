@@ -8,13 +8,23 @@ import {
 import { Metadata } from "next";
 import GetUserWelcome from "@/app/ui/dashboard/welcome";
 import { cookies } from "next/headers";
+import { draftMode } from 'next/headers';
 
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 
+ const contentUrl = isEnabled
+    ? 'https://handcrafted-haven-one.vercel.app/dashboard?__vercel_draft=1'
+    : 'https://handcrafted-haven-one.vercel.app/dashboard';
+ 
+  // This line enables ISR, required for draft mode
+  const res = await fetch(contentUrl, { next: { revalidate: 120 } });
+ 
+  return res.json();
+}
 export default async function Page() {
-  
+   const { title, desc } = await getContent();
   
   return (
     <main>
