@@ -14,8 +14,8 @@ async function getContent() {
   const { isEnabled } = await draftMode();
  
   const contentUrl = isEnabled
-    ? 'https://draft.example.com'
-    : 'https://production.example.com';
+    ? 'https://handcrafted-haven-one.vercel.app/dashboard?__vercel_draft=1'
+    : 'https://handcrafted-haven-one.vercel.app/dashboard';
  
   // This line enables ISR, required for draft mode
   const res = await fetch(contentUrl, { next: { revalidate: 120 } });
