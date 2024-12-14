@@ -19,7 +19,7 @@ import { draftMode } from 'next/headers';
   // This line enables ISR, required for draft mode
   const res = await fetch(contentUrl, { next: { revalidate: 120 } });
  
-  return res.json();
+  return res;
 }
 export default async function Page() {
    const { title, desc } = await getContent();
