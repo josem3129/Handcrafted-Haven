@@ -191,7 +191,25 @@ export async function fetchListingById(id: string) {
   }
 }
 
-export async function fetchUser(id: string) {
+export async function fetchUser() {
+  try {
+    const data = await sql<CustomerField>`
+      SELECT
+        id,
+        name
+      FROM users
+      ORDER BY id ASC
+    `;
+
+    const users = data.rows;
+    return users;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers.');
+  }
+}
+
+export async function fetchUserById(id: string) {
   try {
     const data = await sql<CustomerField>`
       SELECT
@@ -209,7 +227,6 @@ export async function fetchUser(id: string) {
     throw new Error('Failed to fetch all customers.');
   }
 }
-
 export async function fetchFilteredCustomers(query: string) {
   try {
     const data = await sql<CustomersTableType>`

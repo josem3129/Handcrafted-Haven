@@ -2,7 +2,7 @@
 import { getSession } from "@/app/lib/session";
 import { playfair } from "@/app/ui/fonts";
 import { WelcomeDashboard } from "./welcomeSign";
-import { fetchUser } from "@/app/lib/data";
+import { fetchUserById } from "@/app/lib/data";
 
 export default async function GetUserWelcome() {
   let userInfo = await getSession();
@@ -11,12 +11,12 @@ export default async function GetUserWelcome() {
     user = JSON.parse(JSON.stringify(userInfo));
   }
 
-  const userName = await fetchUser(user.id);
+  const userName = await fetchUserById(user.id);
 
   return userName.map((userFound: { name: string }) => {
     return (
       <>
-        <WelcomeDashboard name={userFound.name} />
+        <WelcomeDashboard name={userFound.name} key={userFound.name}/>
       </>
     );
   });
