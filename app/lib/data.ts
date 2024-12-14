@@ -87,15 +87,14 @@ export async function fetchUserCards() {
   try {
     let userInfo = await getSession()
     if (!userInfo) {
-      // userInfo = {name: "Linda"}
+      return null
     }
     let user: { id: string } = { id: '' };
    if (userInfo !== undefined) {
       user = JSON.parse(JSON.stringify(userInfo))
    }
 
-   console.log(`------------------------------------DATA${user.id}`);
-   
+  
     const data = await sql<listingTable>`
       SELECT  listings.title, listings.image_url, listings.id, listings.amount
       FROM listings

@@ -1,4 +1,4 @@
-"server-only";
+"server-only"
 import { SignJWT, jwtVerify } from "jose";
 import { SessionPayload } from "@/app/lib/definitions";
 import { cookies } from "next/headers";
@@ -13,7 +13,7 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1200 sec from now")
+    .setExpirationTime("5 sec from now")
     .sign(encodedKey);
 }
 
@@ -29,22 +29,11 @@ export async function decrypt(session: string | undefined = "") {
     return payload;
   } catch (error) {
     console.log(`Failed to verify session ${error}`);
-    // clearAllCookies()
-   
   }
 }
 
-function clearAllCookies(): void {
-  // Get all cookies
-  const cookies = document.cookie.split(";");
 
-  // Loop through all cookies and delete them
-  cookies.forEach((cookie) => {
-      const cookieName = cookie.split("=")[0].trim();
-      // Set each cookie with an expired date to delete it
-      document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  });
-}
+
 export async function createSession(id: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({id, expiresAt});  
@@ -97,15 +86,9 @@ export async function getSession() {
       FROM jwt_tokens
       WHERE jwt_tokens.id = 2
   `
-  const parsed = await decrypt(session);
-  parsed.expires = new Date(Date.now() + 10 * 1000);
-  const res = NextResponse.next();
-  res.cookies.set({
-    name: "session",
-    value: await encrypt(parsed),
-    httpOnly: true,
-    expires: parsed.expires,
-  });
-  return res;
+  console.log(session.rows[0].token);
+  
+  if (!session) return null;
+  return await decrypt(JSON.parse(JSON.stringify(session.rows[0].token)));
 }
 

@@ -7,9 +7,8 @@ import { DeleteListing } from "./buttons";
 
 export default async function CardWrapper() {
   let data = await fetchUserCards();
- 
-
-  return data.map(
+  if (data !== null) {
+    return data.map(
     (listing: {
       id: string;
       title: string;
@@ -27,6 +26,10 @@ export default async function CardWrapper() {
       );
     }
   );
+  }
+ 
+
+ 
 }
 
 export function Card({
