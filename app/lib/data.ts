@@ -256,3 +256,14 @@ export async function fetchFilteredCustomers(query: string) {
     throw new Error('Failed to fetch customer table.');
   }
 }
+  export async function fetchReviewsById(id: string) {
+    try {
+      const data = await sql <ListingForm>
+      `SELECT listing_id, rating, review FROM listings WHERE listings.id = ${id}`;
+    ;
+    return data
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch reviews.');
+  } 
+}
