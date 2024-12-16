@@ -9,8 +9,11 @@ export default function ReviewForm({ listing_id }: { listing_id: string }) {
   const initialState: StateReview = { message: null, errors: {} };
   const [state, formAction] = useActionState(createReview, initialState);
   
+
+    
     return (
       <form action={formAction}>
+        <input defaultValue={listing_id} name="listing_id" className="hidden" />
         <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
             Write a review

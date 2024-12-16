@@ -9,11 +9,11 @@ import { formatCurrency } from '@/app/lib/utils';
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
-  const id = params.id;
+  const listing_id = params.id;
   
-  const data = await fetchListingById(id);
 
-  console.log(`-------------------${JSON.stringify(data)}`);
+  const data = await fetchListingById(listing_id);
+
 
   if (data !== null) {
     return(

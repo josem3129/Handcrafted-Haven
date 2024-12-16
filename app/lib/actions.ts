@@ -24,6 +24,7 @@ const FormSchema = z.object({
 
 const ReviewSchema = z.object({
   id: z.string(),
+  listing_id : z.string(),
   name: z.string({
     message: 'Please add a title.',
   }),
@@ -188,18 +189,24 @@ export type StateReview = {
     name?: string[];
     review?: string[];
     rating?: string[];
+    listing_id?: string[]
 
 
   };
   message?: string | null;
 };
 export async function createReview(prevState: StateReview, formData: FormData) {
+
+  console.log(1);
+  
   //validate using zod
   const validatedFields = CreateReview.safeParse({
     name: formData.get('name'),
     review: formData.get('review'),
     rating: formData.get('rating'),
+    listing_id: formData.get('listing_id'),
   });
+  console.log(2);
   
   //if form fails, return errors early. otherwise, continue 
   if (!validatedFields.success) {
@@ -208,15 +215,18 @@ export async function createReview(prevState: StateReview, formData: FormData) {
       message: 'Missing Fields. Failed to Create Invoice.',
     };
   }
+  console.log(3);
   
   //prepare data insertion into database
-  const { name, review, rating } = validatedFields.data;
+  const { name, review, rating, listing_id } = validatedFields.data;
   const date = new Date().toISOString().split("T")[0];
 
+  console.log(`ID${listing_id} NAME${name} RATING${rating} review${review} ${date}`);
+  
   try {
     await sql`
-      INSERT INTO reviews (listing_id, rating, name, review, date)
-      VALUES (${listing_id}, ${rating}, ${name}, ${review}, ${date})
+      INSERT INTO reviews (listing_id, rating, review, name, date)
+      VALUES (${listing_id}, ${rating}, ${review}, ${name}, ${date})
     `;
       } catch (error) {
         return {
@@ -230,7 +240,7 @@ export async function createReview(prevState: StateReview, formData: FormData) {
   //   description: formData.get('description'),
   // };
 
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  revalidatePath(`/dashboard/invoices`);
+  redirect(`/dashboard/invoices/${listing_id}`);
   
 }
