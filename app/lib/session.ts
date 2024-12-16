@@ -24,7 +24,6 @@ export async function decrypt(session: string | undefined = "") {
       algorithms: ["HS256"],
     });
 
-    console.log(`----payload ${JSON.stringify(payload)}`);
     
     return payload;
   } catch (error) {
@@ -55,17 +54,14 @@ export async function createSession(id: string) {
     FROM jwt_tokens
     WHERE id = 2);
     `
-    console.log(`---------------------------------------------------${check}`);
     
     if (!check) {
-      console.log('false');
       
       await sql`
         INSERT INTO jwt_tokens (token, user_id)
         VALUES (${session}, ${id})
       `;
     }else{
-      console.log('true');
       
       await sql`
       UPDATE jwt_tokens
@@ -86,7 +82,6 @@ export async function getSession() {
       FROM jwt_tokens
       WHERE jwt_tokens.id = 2
   `
-  console.log(session.rows[0].token);
   
   if (!session) return null;
   return await decrypt(JSON.parse(JSON.stringify(session.rows[0].token)));

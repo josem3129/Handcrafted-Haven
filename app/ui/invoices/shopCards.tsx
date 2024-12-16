@@ -1,18 +1,24 @@
 import { playfair } from "@/app/ui/fonts";
 import { fetchCardData } from "@/app/lib/data";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function CardWrapper() {
-  const data = await fetchCardData();
+  let data;
+  try {
+    data = await fetchCardData();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return <p>Something went wrong. Please try again later.</p>;
+  }
 
-  return data.map(
-    (listing: {
-      id: string;
-      title: string;
-      amount: string;
-      image_url: string;
-    }) => {
-      return (
+  if (!data || data.length === 0) {
+    return <p>No data available</p>;
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {data.map((listing) => (
         <Card
           key={listing.id}
           id={listing.id}
@@ -20,8 +26,8 @@ export default async function CardWrapper() {
           amount={listing.amount}
           image_url={listing.image_url}
         />
-      );
-    }
+      ))}
+    </div>
   );
 }
 
@@ -37,17 +43,16 @@ export function Card({
   image_url: string;
 }) {
   return (
-    <div className="rounded-xl bg-gray-50 p-2 shadow-sm .m-4" key={id}>
-      <div className="flex-row p-4 text-center">
-        <h3 className="ml-2 text-2xl font-bold m-5">{title}</h3>
+    <Link href={`/dashboard/invoices/${id}`} className="rounded-xl bg-gray-50 p-4 shadow-sm m-4">
+      <div className="flex flex-col items-center">
+        <h3 className="text-2xl font-bold text-center mb-4">{title}</h3>
         <Image src={image_url} alt={title} width={500} height={500} />
       </div>
       <p
-        className={`${playfair.className}
-          truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
+        className={`${playfair.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl mt-4`}
       >
         {amount}
       </p>
-    </div>
+    </Link>
   );
 }

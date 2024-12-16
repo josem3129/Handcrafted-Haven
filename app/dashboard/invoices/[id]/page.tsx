@@ -1,39 +1,36 @@
 import { playfair } from "@/app/ui/fonts";
-import { fetchUserCards, fetchReviewsById } from "@/app/lib/data";
-import React, { useState, useEffect } from "react";
+import { fetchListingById } from "@/app/lib/data";
 import Image from "next/image";
 import { Suspense } from "react";
 import ReviewForm from "app/ui/invoices/review";
+import ReviewTable from "@/app/ui/invoices/foundReviews"; 
+import { formatCurrency } from '@/app/lib/utils';
 
-export default async function CardWrapper() {
-  let data = await fetchUserCards();
+
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+  const id = params.id;
   
+  const data = await fetchListingById(id);
+
+  console.log(`-------------------${JSON.stringify(data)}`);
+
   if (data !== null) {
-    return data.map(
-    (listing: {
-      id: string;
-      title: string;
-      amount: string;
-      image_url: string;
-    }) => {
-      return (
-        <Card
-          key={listing.id}
-          id={listing.id}
-          title={listing.title}
-          amount={listing.amount}
-          image_url={listing.image_url}
-        />
-      );
-    }
-  );
-  }  else {
+    return(
+      <Card
+        key={data.id}
+        id={data.id}
+        title={data.title}
+        amount={formatCurrency(data.amount)}
+        image_url={data.image_url}
+          description = {data.product_description}
+      />
+
+    )
+        
+  } else {
     return <p>No data available</p>;
-
-}
- 
-
- 
+  }
 }
 
 export function Card({
@@ -41,18 +38,20 @@ export function Card({
   amount,
   title,
   image_url,
+  description
 }: {
   id: string;
   amount: string;
   title: string;
   image_url: string;
+  description: string;
 }) {
-  
   return (
-    <div className="rounded-xl bg-gray-50 p-2 shadow-sm .m-4" key={id}>
-      <div className="flex-row p-4 text-center">
+    <div className="rounded-xl bg-gray-50 p-2 shadow-sm .m-4 text-center" key={id}>
         <h3 className="ml-2 text-2xl font-bold m-5">{title}</h3>
+      <div className="flex p-4 text-center">
         <Image src={image_url} alt={title} width={500} height={500} />
+        <p className="text-2xl m-auto">{description}</p>
       </div>
       <p
         className={`${playfair.className}
@@ -61,37 +60,18 @@ export function Card({
         {amount}
       </p>
       <div className=" flex text-center m-5">
+        <div>
+          <ReviewForm
+            listing_id={id}
+          />
+        </div>
+      </div>
       <div>
-                <ReviewForm item={{
-                  id: 0,
-                  title: "",
-                  amount: "",
-                  image_url: ""
-              }}/>
-    </div>
+      <h1 className="text-3xl font-bold text-center mb-6">Product Reviews</h1>
+      <Suspense fallback={<div>Loading reviews...</div>}>
+        <ReviewTable id={id} />
+      </Suspense>
       </div>
     </div>
   );
-
-   async function reviewList(id: string) {
-    // Fetching reviews by ID
-    let result = await fetchReviewsById(id);
-  
-    if (result && result.rows) {
-      // Assuming the data is an array, map through the reviews and return a transformed result
-      return result.rows.map((review) => {
-        // Modify or extract the information you need from each review
-        return {
-          id: review.id,
-          author: review.author,
-          content: review.content,
-          rating: review.rating,
-        };
-      });
-    } else {
-        return <p>No data available</p>;
-    }
-    reviewList(id);
-  }
-  
 }

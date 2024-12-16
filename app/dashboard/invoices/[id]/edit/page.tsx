@@ -1,8 +1,9 @@
 import Form from "@/app/ui/invoices/edit-form";
 import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
-import { fetchListingById, fetchUser } from '@/app/lib/data';
-import { notFound } from 'next/navigation';
+import { fetchListingById } from '@/app/lib/data';
 import { Metadata } from "next";
+import { Suspense } from "react";
+
 export const metadata: Metadata = {
   title: 'Edit Listing',
 };
@@ -10,11 +11,9 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const listing = await fetchListingById(id)
-
-  const list = JSON.stringify(listing)
-  console.log(`------------ EDIT PAGE${listing.id} ${id}`);
   
+  const listing = await fetchListingById(id);
+
   return (
     <main>
       <Breadcrumbs
@@ -27,7 +26,9 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <Form listing={listing}/>
+      <Form listing={listing} />
+      <div>
+      </div>
     </main>
   );
 }

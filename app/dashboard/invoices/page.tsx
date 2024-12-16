@@ -1,9 +1,7 @@
 import Pagination from "@/app/ui/invoices/pagination";
 import Search from "@/app/ui/search";
-import Table from "@/app/ui/invoices/listingUpdate";
-import { CreateInvoice } from "@/app/ui/invoices/buttons";
 import { playfair } from "@/app/ui/fonts";
-import { CardsSkeleton, InvoicesTableSkeleton } from "@/app/ui/skeletons";
+import { CardsSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchInvoicesPages } from "@/app/lib/data";
 import { Metadata } from "next";
@@ -31,7 +29,7 @@ export default async function Page(props: {
       <div className="mt-4 mb-10 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search invoices..." />
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="flex">
       <Suspense fallback={<CardsSkeleton/>}>
           <CardWrapper/>
         </Suspense>
