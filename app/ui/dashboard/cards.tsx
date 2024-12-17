@@ -52,7 +52,7 @@ export function Card({
         <Image src={image_url} alt={title} width={500} height={500} />
       </div>
       <p
-        className={`${playfair.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
+        className={`${playfair.className} text-xl font-bold text-gray-900 px-4 py-4 bg-gray-50 rounded-b-xl text-center mt-4`}
       >
         {amount}
       </p>

@@ -12,19 +12,20 @@ export default function ReviewForm({ listing_id }: { listing_id: string }) {
 
     
     return (
-      <form action={formAction}>
+    <div className="flex place-items-center p3 bg-gray-50">
+      <form action={formAction} className="bg-white p-6 rounded-xl shadow-md w-full sm:w-96">
         <input defaultValue={listing_id} name="listing_id" className="hidden" />
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Write a review
+          <label htmlFor="name" className="block text-lg font-medium text-gray-700 mb-2">
+          Write a review
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
                 id="name"
                 name="name"
-                placeholder = "name"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-auto text-sm outline-2 placeholder:text-gray-500"
+                placeholder = "Name"
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 resize-y"
                 aria-describedby="name-error"
               />
             </div>
@@ -52,7 +53,7 @@ export default function ReviewForm({ listing_id }: { listing_id: string }) {
                   </p>
                 ))}
             </div>
-        <select name="rating" className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 mb-3">
+        <select name="rating" className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 mt-4">
           <option value={1}>1</option>
           <option value={2}>2</option>
           <option value={3}>3</option>
@@ -70,6 +71,7 @@ export default function ReviewForm({ listing_id }: { listing_id: string }) {
         <Button type="submit">Submit Review</Button>
 
       </form>
+    </div>
     );
   };
   

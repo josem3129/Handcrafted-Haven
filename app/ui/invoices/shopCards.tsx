@@ -43,13 +43,13 @@ export function Card({
   image_url: string;
 }) {
   return (
-    <Link href={`/dashboard/invoices/${id}`} className="rounded-xl bg-gray-50 p-4 shadow-sm m-4">
-      <div className="flex flex-col items-center">
-        <h3 className="text-2xl font-bold text-center mb-4">{title}</h3>
-        <Image src={image_url} alt={title} width={500} height={500} />
+    <Link href={`/dashboard/invoices/${id}`} className="bg-white rounded-xl shadow-lg overflow-hidden group">
+      <div className="flex flex-col items-center p-4">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4 text-center">{title}</h3>
+        <Image src={image_url} alt={title} width={500} height={500} className="w-full h-64 object-cover rounded-t-xl transition duration-500 ease-in-out group-hover:scale-110" />
       </div>
       <p
-        className={`${playfair.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl mt-4`}
+        className={`${playfair.className} text-xl font-bold text-gray-900 px-4 py-4 bg-gray-50 rounded-b-xl text-center mt-4`}
       >
         {amount}
       </p>

@@ -19,26 +19,26 @@ export default function Card({
   }) {
     return (
       <div className="rounded-xl bg-gray-50 p-2 shadow-sm .m-4 text-center" key={id}>
-          <h3 className="ml-2 text-2xl font-bold m-5">{title}</h3>
-        <div className="flex p-4 text-center">
-          <Image src={image_url} alt={title} width={500} height={500} />
-          <p className="text-2xl m-auto">{description}</p>
+          <h3 className="text-3xl font-bold mb-4">{title}</h3>
+        <div className="flex flex-col items-center p-4 mb-4">
+          <Image src={image_url} alt={title} width={500} height={500} className="rounded-lg shadow-md" />
+          <p className="text-lg mt-4 max-w-xl">{description}</p>
         </div>
         <p
           className={`${playfair.className}
-            truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
+            truncate rounded-xl bg-white px-6 py-4 text-center text-2xl font-semibold text-gray-700 mt-6`}
         >
           {amount}
         </p>
-        <div className=" flex text-center m-5">
+        <div className="flex justify-center px-6 py-4">
           <div>
             <ReviewForm
               listing_id={id}
             />
           </div>
         </div>
-        <div>
-        <h1 className="text-3xl font-bold text-center mb-6">Product Reviews</h1>
+        <div className="bg-gray-100 py-6 w-full">
+        <h1 className="text-3xl font-bold text-center mt-14">Product Reviews</h1>
         <Suspense fallback={<div>Loading reviews...</div>}>
           <ReviewTable id={id} />
         </Suspense>
