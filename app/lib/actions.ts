@@ -22,7 +22,23 @@ const FormSchema = z.object({
   date: z.string(),
 });
 
+const ReviewSchema = z.object({
+  id: z.string(),
+  listing_id : z.string(),
+  name: z.string({
+    message: 'Please add a title.',
+  }),
+  rating: z.coerce
+  .number()
+  .gt(0, { message: 'Please enter an amount greater than $0.' }),
+
+  review: z.string({
+    message: 'Please add description'
+  }),
+  date: z.string(),
+});
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
+const CreateReview = ReviewSchema.omit({ id: true, date: true });
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
 export type State = {
@@ -101,7 +117,6 @@ export async function createInvoice(prevState: State, formData: FormData) {
     description: formData.get('description'),
   };
 
-  console.log(rawFormData);
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
   
@@ -141,7 +156,6 @@ export async function updateInvoice(
   const amountInCents = amount * 100;
  
   try {
-    console.log(`Before sql ${id}, ${title} ${amountInCents} ${description}`);
     
     await sql`
       UPDATE listings
@@ -167,4 +181,66 @@ export async function deleteInvoice(id: string) {
       message: 'Database Error: Failed to Delete Listing.',
     };
   }
+}
+
+
+export type StateReview = {
+  errors?: {
+    name?: string[];
+    review?: string[];
+    rating?: string[];
+    listing_id?: string[]
+
+
+  };
+  message?: string | null;
+};
+export async function createReview(prevState: StateReview, formData: FormData) {
+
+  console.log(1);
+  
+  //validate using zod
+  const validatedFields = CreateReview.safeParse({
+    name: formData.get('name'),
+    review: formData.get('review'),
+    rating: formData.get('rating'),
+    listing_id: formData.get('listing_id'),
+  });
+  console.log(2);
+  
+  //if form fails, return errors early. otherwise, continue 
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice.',
+    };
+  }
+  console.log(3);
+  
+  //prepare data insertion into database
+  const { name, review, rating, listing_id } = validatedFields.data;
+  const date = new Date().toISOString().split("T")[0];
+
+  console.log(`ID${listing_id} NAME${name} RATING${rating} review${review} ${date}`);
+  
+  try {
+    await sql`
+      INSERT INTO reviews (listing_id, rating, review, name, date)
+      VALUES (${listing_id}, ${rating}, ${review}, ${name}, ${date})
+    `;
+      } catch (error) {
+        return {
+          message: 'Database Error: Failed to Create listing.',
+        };
+  }
+// need to change this to listings
+  // const rawFormData = {
+  //   title: formData.get('title'),
+  //   amount: formData.get('amount'),
+  //   description: formData.get('description'),
+  // };
+
+  revalidatePath(`/dashboard/invoices`);
+  redirect(`/dashboard/invoices/${listing_id}`);
+  
 }
