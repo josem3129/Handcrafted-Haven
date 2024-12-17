@@ -54,6 +54,28 @@ export async function fetchCardData() {
   }
 }
 
+export async function fetchLandingPageCard() {
+  try {
+    const data = await sql<listingTable>`
+      SELECT  listings.title, listings.image_url, listings.id, listings.amount
+      FROM listings
+      ORDER BY listings.date DESC
+        LIMIT 3`;
+
+    const latestListings = data.rows.map((listing) => ({
+      id: listing.id,
+      amount: formatCurrency(listing.amount),
+      title: listing.title,
+      image_url: listing.image_url,
+    }));
+
+    return latestListings;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch the latest invoices.");
+  }
+}
+
 export async function fetchUserCards() {
   try {
     let userInfo = await getSession();
@@ -147,7 +169,7 @@ export async function fetchListingById(id: string) {
     const listing = data.rows.map((listing) => ({
       ...listing,
       // Convert amount from cents to dollars
-      amount: listing.amount / 100,
+      amount: listing.amount,
     }));
 
     

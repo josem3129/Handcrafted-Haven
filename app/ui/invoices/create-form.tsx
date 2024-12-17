@@ -100,6 +100,8 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           </div>
         </div>
           {/*image uploading */}
+
+
           {/* <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
             Add image

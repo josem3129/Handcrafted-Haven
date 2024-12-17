@@ -7,6 +7,21 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { getSession } from "./session";
 
+const CreateFormSchema = z.object({
+  id: z.string(),
+  title: z.string({
+    message: 'Please add a title.',
+  }),
+  amount: z.coerce
+  .number()
+  .gt(0, { message: 'Please enter an amount greater than $0.' }),
+
+  description: z.string({
+    message: 'Please add description'
+  }),
+  date: z.string(),
+});
+
 const FormSchema = z.object({
   id: z.string(),
   title: z.string({
@@ -72,13 +87,16 @@ export async function authenticate(
 export async function createInvoice(prevState: State, formData: FormData) {
   // finding session
   const userInfo = await getSession()
-    let user: { name: string } = { name: '' };
+    let user: { id: string } = { id: '' };
    if (userInfo !== undefined) {
       user = JSON.parse(JSON.stringify(userInfo))
    }
   //finding user in SQL
-  const userData = await sql`SELECT * FROM users WHERE name=${user.name}`;
+  const userData = await sql`SELECT * FROM users WHERE id=${user.id}`;
     const userInfoData = userData.rows[0];
+
+    console.log(userInfoData);
+    
   //validate using zod
   const validatedFields = CreateInvoice.safeParse({
     title: formData.get('title'),

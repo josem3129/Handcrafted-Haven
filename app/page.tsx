@@ -1,28 +1,43 @@
-import AcmeLogo from '@/app/ui/acme-logo';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { playfair } from '@/app/ui/fonts';
-import Image from 'next/image';
-import SideNav from './ui/dashboard/sidenav';
+import { Suspense } from 'react';
+import LandingCardWrapper from './ui/landingCards';
+
 
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-full flex-col px-3 py-4 md:px-2">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-green-500 p-4 md:h-52">
-        <AcmeLogo />
-      </div>
-      <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2 border-2 max-w-56 max-h-max">
-        <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block  "></div>
-          <Link
-            href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-green-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-orange-400 md:text-base"
-          >
-            <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
-      </div>
+      
+
+<div className="flex flex-col h-screen justify-between bg-gray-50">
+      {/* Header Section */}
+      <header className="bg-green-600 text-white py-16 text-center rounded-lg">
+        <h1 className=" text-5xl font-bold">Handcrafted Haven</h1>
+        <p className="mt-4 text-lg">Your destination for unique, handcrafted products.</p>
+      </header>
+
+      {/* Main Content Section */}
+      <main className="flex-grow flex flex-col items-center justify-center px-4 py-12">
+        <Suspense>
+          <LandingCardWrapper/>
+        </Suspense>
+        <p className="text-xl text-gray-700 mb-6 text-center max-w-3xl mt-5">
+          Discover beautiful, one-of-a-kind items that are carefully crafted by skilled artisans. 
+          Whether you're looking for home decor, accessories, or gifts, Handcrafted Haven has something special for everyone.
+        </p>
+        <Link 
+          // onClick={() => alert('Explore our collection!')} 
+          href="/login"
+          className="bg-green-600 text-white py-3 px-6 rounded-lg text-lg hover:bg-green-700 transition duration-300"
+        >
+          Explore Now
+        </Link>
+      </main>
+
+      {/* Footer Section */}
+      <footer className="bg-gray-800 text-white py-4 text-center rounded-lg">
+        <p>&copy; 2024 Handcrafted Haven. All Rights Reserved.</p>
+      </footer>
     </div>
-     
     </main>
   );
 }
