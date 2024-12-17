@@ -1,8 +1,9 @@
 import AcmeLogo from '@/app/ui/handCrafted-logo';
 import LoginForm from '@/app/ui/login-form';
 import { Metadata } from "next";
+import UserForm from '../ui/createUserForm';
 export const metadata: Metadata = {
-  title: 'Login',
+  title: 'Create Account',
 };
 export default function LoginPage() {
   return (
@@ -13,7 +14,7 @@ export default function LoginPage() {
             <AcmeLogo />
           </div>
         </div>
-        <LoginForm />
+        <UserForm />
       </div>
     </main>
   );

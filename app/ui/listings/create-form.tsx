@@ -9,12 +9,12 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "@/app/ui/button";
-import { createInvoice, State } from "@/app/lib/actions";
+import { createInvoice, CreateListingState } from "@/app/lib/actions";
 import { useActionState } from "react";
 // import { error } from "console";
 
-export default function Form({ customers }: { customers: CustomerField[] }) {
-  const initialState: State = { message: null, errors: {} };
+export default function Form() {
+  const initialState: CreateListingState = { message: null, errors: {} };
   const [state, formAction] = useActionState(createInvoice, initialState);
 
   return (
@@ -32,12 +32,12 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 name="title"
                 placeholder="Enter title"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-auto text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="amount-error"
+                aria-describedby="error"
               />
             </div>
             <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
+              {state.errors?.title &&
+                state.errors.title.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -101,41 +101,40 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         </div>
           {/*image uploading */}
 
-
-          {/* <div className="mb-4">
+          <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
             Add image
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-              type="file"
-              accept="image/*"
-                id="product_description"
-                placeholder="choose file"
+              type="text"
+              name="listingImage"
+                id="product_image"
+                placeholder="place image url here"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-auto text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
             <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
+              {state.errors?.listingImage &&
+                state.errors.listingImage.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/** error handling */}
-        {/* <div id="customer-error" aria-live="polite" aria-atomic="true">
-          {state.errors?.status &&
-            state.errors.status.map((error: string) => (
+        <div id="customer-error" aria-live="polite" aria-atomic="true">
+          {state.errors?.listingImage &&
+            state.errors.listingImage.map((error: string) => (
               <p className="mt-2 text-sm text-red-500" key={error}>
                 {error}
               </p>
             ))}
-        </div> */}
+        </div>
       </div>
       <div aria-live="polite" aria-atomic="true">
         {state.message ? (
@@ -146,7 +145,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
       
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/invoices"
+          href="/dashboard/listings"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel

@@ -3,7 +3,7 @@ import {
   CustomerField,
   CustomersTableType,
   ListingForm,
-  InvoicesTable,
+  ListingTable,
   listingTable,
   reviewTable,
 } from "./definitions";
@@ -107,37 +107,32 @@ export async function fetchUserCards() {
 }
 
 const ITEMS_PER_PAGE = 6;
-export async function fetchFilteredInvoices(
-  query: string,
-  currentPage: number
-) {
+export async function fetchFilteredListing(query: string, currentPage: number) {
+  console.log(`WHY? ${query} ${currentPage}`);
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
+  
   try {
-    const invoices = await sql<InvoicesTable>`
+    const listing = await sql<ListingTable>`
       SELECT
-        listings.id,
-        listings.amount,
-        listings.date,
-        listings.status,
-        users.name,
-        users.email,
-        users.image_url
+      listings.id,
+      listings.title,
+      listings.amount,
+      listings.date,
+      listings.image_url
       FROM listings
-      JOIN users ON listings.customer_id = users.id
-      WHERE
-        users.name ILIKE ${`%${query}%`} OR
-        users.email ILIKE ${`%${query}%`} OR
-        listings.amount::text ILIKE ${`%${query}%`} OR
-        listings.date::text ILIKE ${`%${query}%`} OR
-      ORDER BY listings.date DESC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        WHERE
+        listings.title ILIKE ${`%${query}%`} OR
+    listings.name ILIKE ${`%${query}%`} OR
+            listings.amount::text ILIKE ${`%${query}%`}
+                  ORDER BY listings.date DESC
+                        LIMIT  ${ITEMS_PER_PAGE} OFFSET ${offset} 
     `;
-
-    return invoices.rows;
+    
+    return listing.rows;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch invoices.");
+    throw new Error("Failed to fetch listing.");
   }
 }
 
@@ -172,7 +167,6 @@ export async function fetchListingById(id: string) {
       amount: listing.amount,
     }));
 
-    
     return listing[0];
   } catch (error) {
     console.error("Database Error:", error);
@@ -250,15 +244,14 @@ export async function fetchReviewsById(id: string) {
     const data = await sql<
       reviewTable
     >`SELECT id, rating, name, date, review FROM reviews WHERE listing_id = ${id}`;
-      const reviewFound = data.rows.map((review) => ({
-        id: review.id,
-        rating: review.rating,
-        review: review.review,
-        name: review.name,
-        date: review.date
-      }));
-    
-      
+    const reviewFound = data.rows.map((review) => ({
+      id: review.id,
+      rating: review.rating,
+      review: review.review,
+      name: review.name,
+      date: review.date,
+    }));
+
     return reviewFound;
   } catch (error) {
     console.error("Database Error:", error);

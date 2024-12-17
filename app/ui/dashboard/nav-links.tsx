@@ -14,11 +14,11 @@ const links = [
   { name: "Home", href: "/dashboard", icon: HomeIcon, as: "style" },
   {
     name: "Shop",
-    href: "/dashboard/invoices",
+    href: "/dashboard/listings",
     icon: DocumentDuplicateIcon,
     as: "style",
   },
-  { name: "Add listing", href: "/dashboard/invoices/create", icon: UserGroupIcon },
+  { name: "Add listing", href: "/dashboard/listings/create", icon: UserGroupIcon },
 ];
 
 export default function NavLinks() {
