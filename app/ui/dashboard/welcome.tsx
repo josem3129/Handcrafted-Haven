@@ -1,23 +1,32 @@
 "use server";
 import { getSession } from "@/app/lib/session";
-import { playfair } from "@/app/ui/fonts";
 import { WelcomeDashboard } from "./welcomeSign";
 import { fetchUserById } from "@/app/lib/data";
 
 export default async function GetUserWelcome() {
-  let userInfo = await getSession();
+  // Fetch session and user info
+  const userInfo = await getSession();
   let user: { id: string } = { id: "" };
+
   if (userInfo !== undefined) {
     user = JSON.parse(JSON.stringify(userInfo));
   }
 
+  // Fetch the user's name using the user ID
+  if (!user.id) {
+    return <div>Error: User ID is missing!</div>;
+  }
+
   const userName = await fetchUserById(user.id);
 
-  return userName.map((userFound: { name: string }) => {
-    return (
-      <>
-        <WelcomeDashboard name={userFound.name} key={userFound.name}/>
-      </>
-    );
-  });
+  if (userName.length === 0) {
+    return <div>Error: User data is not available!</div>;
+  }
+
+  // Render the welcome dashboard with the user's name
+  return (
+    <>
+      <WelcomeDashboard key={userName[0].name} name={userName[0].name} />
+    </>
+  );
 }

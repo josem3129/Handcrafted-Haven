@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { playfair } from '@/app/ui/fonts';
 import { fetchLatestInvoices } from '@/app/lib/data';
 
-export default async function LatestInvoices(){
+export default async function LatestListing(){
    const latestInvoices = await fetchLatestInvoices();
 
   return (

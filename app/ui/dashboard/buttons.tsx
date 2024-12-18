@@ -2,6 +2,8 @@ import {TrashIcon } from '@heroicons/react/24/outline';
 import { deleteInvoice } from '@/app/lib/actions';
 
 export function DeleteListing({ id }: { id: string }) {
+  console.log(id);
+  
   const deleteInvoiceWithId = deleteInvoice.bind(null, id);
  
   return (

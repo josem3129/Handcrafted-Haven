@@ -1,11 +1,11 @@
-import Pagination from "@/app/ui/invoices/pagination";
+import Pagination from "@/app/ui/listings/pagination";
 import Search from "@/app/ui/search";
 import { playfair } from "@/app/ui/fonts";
 import { CardsSkeleton } from "@/app/ui/skeletons";
 import { Suspense } from "react";
 import { fetchInvoicesPages } from "@/app/lib/data";
 import { Metadata } from "next";
-import CardWrapper from "@/app/ui/invoices/shopCards";
+import CardWrapper from "@/app/ui/listings/shopCards";
 export const metadata: Metadata = {
   title: 'Shop',
 };
@@ -31,7 +31,7 @@ export default async function Page(props: {
       </div>
       <div className="flex">
       <Suspense fallback={<CardsSkeleton/>}>
-          <CardWrapper/>
+          <CardWrapper query={query} currentPage={currentPage}/>
         </Suspense>
       </div>
       <div className="mt-5 flex w-full justify-center">

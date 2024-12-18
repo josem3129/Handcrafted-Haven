@@ -1,5 +1,5 @@
-import Form from '@/app/ui/invoices/create-form';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import Form from '@/app/ui/listings/create-form';
+import Breadcrumbs from '@/app/ui/listings/breadcrumbs';
 import { fetchUser } from '@/app/lib/data';
 import { Metadata } from "next";
 export const metadata: Metadata = {
@@ -7,7 +7,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const customers = await fetchUser();
  
   return (
     <main>
@@ -21,7 +20,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form customers={customers} />
+      <Form />
     </main>
   );
 }
