@@ -52,7 +52,7 @@ export default function LoginForm() {
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 mb-4"
                 id="password"
                 type="password"
                 name="password"
@@ -64,7 +64,7 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <Link href="/user" className='m-1'>Create account</Link>
+        <Link href="/user" className='m-2   hover:bg-orange-400'>Create account</Link>
         <Button className="mt-4 w-full" aria-disabled={isPending}>
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
