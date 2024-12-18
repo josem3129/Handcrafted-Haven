@@ -104,47 +104,38 @@ export default function EditInvoiceForm({
           </div>
         </div>
           {/*image uploading */}
-          {/* <div className="mb-4">
+
+          <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
             Add image
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-              type="file"
-              accept="image/*"
-                id="product_description"
-                placeholder="choose file"
+              type="text"
+              name="listingImage"
+                id="product_image"
+                defaultValue={listing.image_url}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-auto text-sm outline-2 placeholder:text-gray-500"
               />
             </div>
             <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
+              {state.errors?.image_url &&
+                state.errors.image_url.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
             </div>
           </div>
-        </div> */}
+        </div>
 
-        {/** error handling */}
-        {/* <div id="customer-error" aria-live="polite" aria-atomic="true">
-          {state.errors?.status &&
-            state.errors.status.map((error: string) => (
-              <p className="mt-2 text-sm text-red-500" key={error}>
-                {error}
-              </p>
-            ))}
-        </div> */}
       </div>
       <div aria-live="polite" aria-atomic="true">
         {state.message ? (
           <p className="mt-2 text-sm text-red-500">{state.message}</p>
         ) : null}
       </div>
-
       
       <div className="mt-6 flex justify-end gap-4">
         <Link

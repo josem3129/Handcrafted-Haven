@@ -1,6 +1,6 @@
 import { fetchListingById } from "@/app/lib/data";
 import { formatCurrency } from '@/app/lib/utils';
-import Card from "@/app/ui/invoices/cards";
+import Card from "@/app/ui/listings/cards";
 
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {

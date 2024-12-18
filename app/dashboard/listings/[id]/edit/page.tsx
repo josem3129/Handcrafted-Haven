@@ -1,5 +1,5 @@
-import Form from "@/app/ui/invoices/edit-form";
-import Breadcrumbs from "@/app/ui/invoices/breadcrumbs";
+import Form from "@/app/ui/listings/edit-form";
+import Breadcrumbs from "@/app/ui/listings/breadcrumbs";
 import { fetchListingById } from '@/app/lib/data';
 import { Metadata } from "next";
 import { Suspense } from "react";
@@ -18,10 +18,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Invoices", href: "/dashboard/invoices" },
+          { label: "Invoices", href: "/dashboard/listings" },
           {
             label: "Edit Invoice",
-            href: `/dashboard/invoices/${id}/edit`,
+            href: `/dashboard/listings/${id}/edit`,
             active: true,
           },
         ]}

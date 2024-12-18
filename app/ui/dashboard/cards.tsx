@@ -2,7 +2,7 @@ import { playfair } from "@/app/ui/fonts";
 import { fetchUserCards } from "@/app/lib/data";
 import Image from "next/image";
 import { Suspense } from "react";
-import { UpdateInvoice } from "@/app/ui/invoices/buttons";
+import { UpdateInvoice } from "@/app/ui/listings/buttons";
 import { DeleteListing } from "./buttons";
 
 export default async function CardWrapper() {

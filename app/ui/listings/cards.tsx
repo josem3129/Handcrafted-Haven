@@ -1,8 +1,8 @@
 import { playfair } from "@/app/ui/fonts";
 import Image from "next/image";
 import { Suspense } from "react";
-import ReviewForm from "app/ui/invoices/review";
-import ReviewTable from "@/app/ui/invoices/foundReviews"; 
+import ReviewForm from "app/ui/listings/review";
+import ReviewTable from "@/app/ui/listings/foundReviews"; 
 
 export default function Card({
     id,
